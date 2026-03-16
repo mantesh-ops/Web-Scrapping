@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experts Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">Find the right specialist</p>
+      <h1>Meet Our Experts</h1>
+      <p class="lead">
+        Browse experts by specialty, then click any card to open a complete profile and contact details.
+      </p>
+      <div class="controls" aria-label="Expert filters">
+        <input id="searchInput" type="search" placeholder="Search by name, expertise, or location" />
+        <select id="specialtyFilter">
+          <option value="all">All specialties</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section>
+      <ul id="expertsGrid" class="experts-grid" aria-live="polite"></ul>
+      <p id="emptyState" class="empty-state" hidden>No experts found. Try another search.</p>
+    </section>
+  </main>
+
+  <dialog id="profileDialog" class="profile-dialog" aria-labelledby="dialogTitle">
+    <button id="closeDialog" class="close-dialog" aria-label="Close profile">✕</button>
+    <div id="dialogContent"></div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>

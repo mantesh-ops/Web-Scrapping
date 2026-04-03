@@ -95,22 +95,18 @@ main {
   background: var(--card);
   border-radius: 1rem;
   border: 1px solid var(--line);
+  padding: 1rem;
   box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.6rem;
+  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .expert-card:hover,
-.expert-card:focus-within {
+.expert-card:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 16px 32px rgba(16, 42, 88, 0.18);
-}
-
-.expert-link {
-  display: grid;
-  gap: 0.6rem;
-  padding: 1rem;
-  color: inherit;
-  text-decoration: none;
 }
 
 .expert-header {
@@ -159,25 +155,25 @@ main {
   margin-top: 1rem;
 }
 
-.profile-page {
-  padding: 2.5rem 0 3rem;
-}
-
-.back-link {
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: #0a4bb5;
-  text-decoration: none;
-}
-
-.profile-card {
-  background: var(--card);
+.profile-dialog {
+  width: min(720px, calc(100% - 2rem));
+  border: none;
   border-radius: 1rem;
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  padding: 1.3rem;
-  max-width: 760px;
+  padding: 1.2rem;
+}
+
+.profile-dialog::backdrop {
+  background: rgba(4, 15, 38, 0.55);
+}
+
+.close-dialog {
+  border: none;
+  border-radius: 999px;
+  width: 2rem;
+  height: 2rem;
+  background: #edf2fc;
+  cursor: pointer;
+  float: right;
 }
 
 .profile-title {

@@ -1,4 +1,4 @@
-const defaultExperts = [
+const experts = [
   {
     id: 1,
     name: 'Maria Keller',
@@ -61,12 +61,13 @@ const defaultExperts = [
   }
 ];
 
-const experts = Array.isArray(window.experts) && window.experts.length ? window.experts : defaultExperts;
-
 const grid = document.getElementById('expertsGrid');
 const emptyState = document.getElementById('emptyState');
 const searchInput = document.getElementById('searchInput');
 const specialtyFilter = document.getElementById('specialtyFilter');
+const profileDialog = document.getElementById('profileDialog');
+const dialogContent = document.getElementById('dialogContent');
+const closeDialog = document.getElementById('closeDialog');
 
 function initials(name) {
   return name
@@ -90,24 +91,47 @@ function renderExperts(items) {
   for (const expert of items) {
     const card = document.createElement('li');
     card.className = 'expert-card';
+    card.tabIndex = 0;
+    card.setAttribute('role', 'button');
+    card.setAttribute('aria-label', `Open profile for ${expert.name}`);
 
     card.innerHTML = `
-      <a class="expert-link" href="profile.html?id=${expert.id}" aria-label="Open profile for ${expert.name}">
-        <div class="expert-header">
-          <div class="avatar" aria-hidden="true">${initials(expert.name)}</div>
-          <div>
-            <h3>${expert.name}</h3>
-            <p class="role">${expert.title}</p>
-          </div>
+      <div class="expert-header">
+        <div class="avatar" aria-hidden="true">${initials(expert.name)}</div>
+        <div>
+          <h3>${expert.name}</h3>
+          <p class="role">${expert.title}</p>
         </div>
-        <span class="tag">${expert.specialty}</span>
-        <p class="meta">${expert.location}</p>
-        <p class="meta">${expert.years} years of experience</p>
-      </a>
+      </div>
+      <span class="tag">${expert.specialty}</span>
+      <p class="meta">${expert.location}</p>
+      <p class="meta">${expert.years} years of experience</p>
     `;
+
+    const open = () => openProfile(expert);
+    card.addEventListener('click', open);
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        open();
+      }
+    });
 
     grid.appendChild(card);
   }
+}
+
+function openProfile(expert) {
+  dialogContent.innerHTML = `
+    <h2 id="dialogTitle" class="profile-title">${expert.name}</h2>
+    <p class="role">${expert.title} · ${expert.specialty}</p>
+    <p><strong>Location:</strong> ${expert.location}</p>
+    <p><strong>Experience:</strong> ${expert.years} years</p>
+    <p>${expert.bio}</p>
+    <p><strong>Contact:</strong> <a href="mailto:${expert.contact}">${expert.contact}</a></p>
+  `;
+
+  profileDialog.showModal();
 }
 
 function getFilteredExperts() {
@@ -142,6 +166,19 @@ function refresh() {
 
 searchInput.addEventListener('input', refresh);
 specialtyFilter.addEventListener('change', refresh);
+closeDialog.addEventListener('click', () => profileDialog.close());
+profileDialog.addEventListener('click', (event) => {
+  const box = profileDialog.getBoundingClientRect();
+  const clickedOutside =
+    event.clientX < box.left ||
+    event.clientX > box.right ||
+    event.clientY < box.top ||
+    event.clientY > box.bottom;
+
+  if (clickedOutside) {
+    profileDialog.close();
+  }
+});
 
 populateSpecialties();
 refresh();
